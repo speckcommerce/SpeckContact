@@ -10,9 +10,41 @@
 namespace SpeckContact;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use ZfcBase\Mapper\AbstractDbMapper;
 
 class Module implements AutoloaderProviderInterface
 {
+    public function getServiceConfig()
+    {
+        return array(
+            'invokables' => array(
+                'SpeckContact\Mapper\AddressMapper' => 'SpeckContact\Mapper\AddressMapper',
+                'SpeckContact\Mapper\EmailMapper'   => 'SpeckContact\Mapper\EmailMapper',
+                'SpeckContact\Mapper\PhoneMapper'   => 'SpeckContact\Mapper\PhoneMapper',
+                'SpeckContact\Mapper\UrlMapper'     => 'SpeckContact\Mapper\UrlMapper',
+            ),
+
+            'initializers' => array(
+                function ($instance, $sm) {
+                    if ($instance instanceof AbstractDbMapper) {
+                        $instance->setDbAdapter($sm->get('speckcontact_db_adapter'));
+                    }
+                },
+            ),
+
+            'factories' => array(
+                'SpeckContact\Service\ContactService' => function($sm) {
+                    $service = new Service\ContactService;
+                    $service->setAddressMapper($sm->get('SpeckContact\Mapper\AddressMapper'))
+                        ->setEmailMapper($sm->get('SpeckContact\Mapper\EmailMapper'))
+                        ->setPhoneMapper($sm->get('SpeckContact\Mapper\PhoneMapper'))
+                        ->setUrlMapper($sm->get('SpeckContact\Mapper\UrlMapper'));
+                    return $service;
+                },
+            ),
+        );
+    }
+
     public function getAutoloaderConfig()
     {
         return array(
