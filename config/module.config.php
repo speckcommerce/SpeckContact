@@ -29,6 +29,19 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'view' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]+'
+                            ),
+                            'defaults' => array(
+                                'controller' => 'speckcontact',
+                                'action' => 'view',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

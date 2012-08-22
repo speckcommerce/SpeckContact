@@ -19,6 +19,8 @@ class Module implements AutoloaderProviderInterface
         return array(
             'invokables' => array(
                 'SpeckContact\Mapper\AddressMapper' => 'SpeckContact\Mapper\AddressMapper',
+                'SpeckContact\Mapper\CompanyMapper' => 'SpeckContact\Mapper\CompanyMapper',
+                'SpeckContact\Mapper\ContactMapper' => 'SpeckContact\Mapper\ContactMapper',
                 'SpeckContact\Mapper\EmailMapper'   => 'SpeckContact\Mapper\EmailMapper',
                 'SpeckContact\Mapper\PhoneMapper'   => 'SpeckContact\Mapper\PhoneMapper',
                 'SpeckContact\Mapper\UrlMapper'     => 'SpeckContact\Mapper\UrlMapper',
@@ -36,6 +38,8 @@ class Module implements AutoloaderProviderInterface
                 'SpeckContact\Service\ContactService' => function($sm) {
                     $service = new Service\ContactService;
                     $service->setAddressMapper($sm->get('SpeckContact\Mapper\AddressMapper'))
+                        ->setCompanyMapper($sm->get('SpeckContact\Mapper\CompanyMapper'))
+                        ->setContactMapper($sm->get('SpeckContact\Mapper\ContactMapper'))
                         ->setEmailMapper($sm->get('SpeckContact\Mapper\EmailMapper'))
                         ->setPhoneMapper($sm->get('SpeckContact\Mapper\PhoneMapper'))
                         ->setUrlMapper($sm->get('SpeckContact\Mapper\UrlMapper'));

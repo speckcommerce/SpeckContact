@@ -2,9 +2,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `contact_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `display_name` varchar(255) DEFAULT NULL,
-  `parent_contact_id` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`contact_id`),
-  KEY `parent_contact_id` (`parent_contact_id`)
+  PRIMARY KEY (`contact_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `contact_addresses` (

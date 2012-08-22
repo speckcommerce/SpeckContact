@@ -1,0 +1,3 @@
+<?php foreach ($this->contacts as $c) : ?>
+<a href="<?=$this->url('contact/view', array('id' => $c->getContactId()))?>"><?=$c->getName()?></a> (<?=$c->getDisplayName()?>)<br />
+<?php endforeach; ?>

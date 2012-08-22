@@ -2,17 +2,17 @@
 
 namespace SpeckContact\Entity;
 
-class Email
+class Contact
 {
     protected $contactId;
     protected $name;
     protected $displayName;
-    protected $parentContactId;
 
-    protected $emails;
-    protected $phones;
-    protected $urls;
-    protected $addresses;
+    protected $companies = array();
+    protected $emails = array();
+    protected $phones = array();
+    protected $urls = array();
+    protected $addresses = array();
 
     public function getContactId()
     {
@@ -24,7 +24,6 @@ class Email
         $this->contactId = $contactId;
         return $this;
     }
-
 
     public function getName()
     {
@@ -48,14 +47,20 @@ class Email
         return $this;
     }
 
-    public function getParentContactId()
+    public function getCompanies()
     {
-        return $this->parentContactId;
+        return $this->companies;
     }
 
-    public function setParentContactId($parentContactId)
+    public function setCompanies($companies)
     {
-        $this->parentContactId = $parentContactId;
+        $this->companies = $companies;
+        return $this;
+    }
+
+    public function addCompany($company)
+    {
+        $this->companies[] = $company;
         return $this;
     }
 
@@ -64,7 +69,7 @@ class Email
         return $this->emails;
     }
 
-    public function setEmails(array $emails)
+    public function setEmails($emails)
     {
         $this->emails = $emails;
         return $this;
@@ -80,7 +85,7 @@ class Email
         return $this->phones;
     }
 
-    public function setPhones(array $phones)
+    public function setPhones($phones)
     {
         $this->phones = $phones;
         return $this;
@@ -97,7 +102,7 @@ class Email
         return $this->urls;
     }
 
-    public function setUrls(array $urls)
+    public function setUrls($urls)
     {
         $this->urls = $urls;
         return $this;
@@ -114,7 +119,7 @@ class Email
         return $this->addresses;
     }
 
-    public function setAddresses(array $addresses)
+    public function setAddresses($addresses)
     {
         $this->addresses = $addresses;
         return $this;

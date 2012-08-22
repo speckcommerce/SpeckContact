@@ -2,8 +2,11 @@
 
 namespace SpeckContact\Service;
 
+use SpeckContact\Entity\Contact;
+
 class ContactService
 {
+    protected $companyMapper;
     protected $contactMapper;
     protected $addressMapper;
     protected $emailMapper;
@@ -13,11 +16,57 @@ class ContactService
     public function findById($id)
     {
         $contact = $this->contactMapper->findById($id);
+        $contact = $this->getExtras($contact);
 
-        $address = $this->addressMapper->findByContactId($id);
+        return $contact;
+    }
+
+    public function getContacts($extra = false, $filter = null)
+    {
+        $contacts = $this->contactMapper->fetch($filter);
+
+        $result = array();
+        foreach ($contacts as $contact) {
+            $result[] = $contact;
+        }
+
+        if ($extra) {
+            foreach ($result as $contact) {
+                $this->getExtras($contact);
+            }
+        }
+
+        return $result;
+    }
+
+    public function getExtras(Contact $contact)
+    {
+        $id = $contact->getContactId();
+
+        $addresses = $this->addressMapper->findByContactId($id);
+        foreach ($addresses as $i) {
+            $contact->addAddress($i);
+        }
+
+        $companies = $this->companyMapper->findByContactId($id);
+        foreach ($companies as $i) {
+            $contact->addCompany($i);
+        }
+
         $emails = $this->emailMapper->findByContactId($id);
-        $phone = $this->phoneMapper->findByContactId($id);
-        $url = $this->urlMapper->findByContactId($id);
+        foreach ($emails as $i) {
+            $contact->addEmail($i);
+        }
+
+        $phones = $this->phoneMapper->findByContactId($id);
+        foreach ($phones as $i) {
+            $contact->addPhone($i);
+        }
+
+        $urls = $this->urlMapper->findByContactId($id);
+        foreach ($urls as $i) {
+            $contact->addUrl($i);
+        }
 
         return $contact;
     }
@@ -41,6 +90,17 @@ class ContactService
     public function setAddressMapper($addressMapper)
     {
         $this->addressMapper = $addressMapper;
+        return $this;
+    }
+
+    public function getCompanyMapper()
+    {
+        return $this->companyMapper;
+    }
+
+    public function setCompanyMapper($companyMapper)
+    {
+        $this->companyMapper = $companyMapper;
         return $this;
     }
 
