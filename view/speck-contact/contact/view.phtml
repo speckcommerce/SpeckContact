@@ -11,7 +11,8 @@ $addRoute = $this->addRoute ?: 'address/add';
 <h3>Companies</h3>
 <div class="well well-small">
 <?php foreach($this->contact->getCompanies() as $c) : ?>
-<?=$c->getName()?> (<?=$c->getDisplayName()?>)<br />
+<a href="<?=$this->url('contact/company', array('id'=>$c->getCompanyId()))?>">
+<?=$c->getName()?> (<?=$c->getDisplayName()?>)</a><br />
 <?php endforeach; ?>
 </div>
 

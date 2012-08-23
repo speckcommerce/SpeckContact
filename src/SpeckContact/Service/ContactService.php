@@ -21,6 +21,24 @@ class ContactService
         return $contact;
     }
 
+    public function findByCompanyId($companyId, $extra = false)
+    {
+        $contacts = $this->contactMapper->findByCompanyId($companyId);
+
+        $result = array();
+        foreach ($contacts as $contact) {
+            $result[] = $contact;
+        }
+
+        if ($extra) {
+            foreach ($result as $contact) {
+                $this->getExtras($contact);
+            }
+        }
+
+        return $result;
+    }
+
     public function getContacts($extra = false, $filter = null)
     {
         $contacts = $this->contactMapper->fetch($filter);
