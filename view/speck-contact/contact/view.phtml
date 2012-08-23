@@ -1,1 +1,71 @@
-<?=var_dump($this->contact);?>
+<?php
+
+$editRoute = $this->editRoute ?: 'address/edit/query';
+$deleteRoute = $this->deleteRoute ?: 'address/delete/query';
+$addRoute = $this->addRoute ?: 'address/add';
+
+?>
+
+<h2><?=$this->contact->getName();?> (<?=$this->contact->getDisplayName()?>)</h3>
+
+<h3>Companies</h3>
+<div class="well well-small">
+<?php foreach($this->contact->getCompanies() as $c) : ?>
+<?=$c->getName()?> (<?=$c->getDisplayName()?>)<br />
+<?php endforeach; ?>
+</div>
+
+<h3>Phone Numbers</h3>
+<div class="well well-small">
+<?php foreach($this->contact->getPhones() as $p) : ?>
+<?=$p->getTag() ? $p->getTag() . ': ' : ''?><?=$p->getPhone()?><br />
+<?php endforeach; ?>
+</div>
+
+<h3>Email Addresses</h3>
+<div class="well well-small">
+<?php foreach($this->contact->getEmails() as $e) : ?>
+<?=$e->getTag() ? $e->getTag() . ': ' : ''?><?=$e->getEmail()?><br />
+<?php endforeach; ?>
+</div>
+
+<h3>Addresses</h3>
+<div class="well well-small">
+    <?php foreach($this->contact->getAddresses() as $address) :
+
+        $params = http_build_query(array(
+            'markers' => '|'.$address->getStreetAddress().' '.$address->getCity().', '.$address->getProvince(),
+            'sensor' => 'false',
+            'size' => '175x150'
+        ));
+
+        $imgurl = "http://maps.googleapis.com/maps/api/staticmap?" . $params;
+        $editUrl = $this->url($editRoute, array('id' => $address->getAddressId()));
+        $deleteUrl = $this->url($deleteRoute, array('id' => $address->getAddressId()));
+
+        ?>
+        <div style="float: left; margin-right: 10px;">
+            <img src="<?=$imgurl?>" />
+        </div>
+        <p>
+        <em><?=$address->getTag()?></em><br />
+        <em><?=$address->getName()?></em><br />
+        <?=$address->getStreetAddress()?><br />
+        <?=$address->getCity()?>, <?=$address->getProvince()?> <?=$address->getPostalCode()?><br />
+        <?=$address->getCountry()?></p>
+        <a href="<?=$editUrl?>">Edit</a> &middot; <a href="<?=$deleteUrl?>">Delete</a>
+        <p style="clear: both"></p>
+    <?php endforeach; ?>
+    <a href="<?=$this->url($addRoute)?>">Add Address</a>
+</div>
+
+<h3>URLs</h3>
+<div class="well well-small">
+<?php foreach($this->contact->getUrls() as $u) : ?>
+    <?php if ($u->getTag() == null) : ?>
+    <a href="<?=$u->getUrl()?>"><?=$u->getUrl()?></a>
+    <?php else : ?>
+    <a href="<?=$u->getUrl()?>"><?=$u->getTag()?> (<?=$u->getUrl()?>)</a>
+    <?php endif ;?>
+<?php endforeach; ?>
+</div>

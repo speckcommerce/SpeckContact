@@ -2,7 +2,7 @@
 
 namespace SpeckContact\Mapper;
 
-use SpeckAddress\Entity\Address;
+use SpeckContact\Entity\Address;
 
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;

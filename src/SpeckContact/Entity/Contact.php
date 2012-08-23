@@ -110,7 +110,7 @@ class Contact
 
     public function addUrl($url)
     {
-        $this->urls = $url;
+        $this->urls[] = $url;
         return $this;
     }
 
