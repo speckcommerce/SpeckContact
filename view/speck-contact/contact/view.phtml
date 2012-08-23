@@ -9,11 +9,12 @@ $addRoute = $this->addRoute ?: 'address/add';
 <h2><?=$this->contact->getName();?> (<?=$this->contact->getDisplayName()?>)</h3>
 
 <h3>Companies</h3>
-<div class="well well-small">
+<div class="well well-small" style="clear:both;">
 <?php foreach($this->contact->getCompanies() as $c) : ?>
-<a href="<?=$this->url('contact/company', array('id'=>$c->getCompanyId()))?>">
+<a href="<?=$this->url('contact/company/view', array('id'=>$c->getCompanyId()))?>">
 <?=$c->getName()?> (<?=$c->getDisplayName()?>)</a><br />
 <?php endforeach; ?>
+<a href="<?=$this->url('contact/company/add', array('id' => $this->contact->getContactId()))?>">Add Company</a>
 </div>
 
 <h3>Phone Numbers</h3>
@@ -21,6 +22,7 @@ $addRoute = $this->addRoute ?: 'address/add';
 <?php foreach($this->contact->getPhones() as $p) : ?>
 <?=$p->getTag() ? $p->getTag() . ': ' : ''?><?=$p->getPhone()?><br />
 <?php endforeach; ?>
+<a href="">Add Phone Number</a>
 </div>
 
 <h3>Email Addresses</h3>
@@ -28,6 +30,7 @@ $addRoute = $this->addRoute ?: 'address/add';
 <?php foreach($this->contact->getEmails() as $e) : ?>
 <?=$e->getTag() ? $e->getTag() . ': ' : ''?><?=$e->getEmail()?><br />
 <?php endforeach; ?>
+<a href="">Add Email Address</a>
 </div>
 
 <h3>Addresses</h3>
@@ -64,9 +67,10 @@ $addRoute = $this->addRoute ?: 'address/add';
 <div class="well well-small">
 <?php foreach($this->contact->getUrls() as $u) : ?>
     <?php if ($u->getTag() == null) : ?>
-    <a href="<?=$u->getUrl()?>"><?=$u->getUrl()?></a>
+    <a href="<?=$u->getUrl()?>"><?=$u->getUrl()?></a><br />
     <?php else : ?>
     <a href="<?=$u->getUrl()?>"><?=$u->getTag()?> (<?=$u->getUrl()?>)</a>
     <?php endif ;?>
 <?php endforeach; ?>
+<a href="">Add URL</a>
 </div>

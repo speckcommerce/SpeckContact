@@ -43,15 +43,41 @@ return array(
                         ),
                     ),
                     'company' => array(
-                        'type' => 'Segment',
+                        'type' => 'Literal',
+                        'may_terminate' => true,
                         'options' => array(
-                            'route' => '/company/:id',
-                            'contstraints' => array(
-                                'id' => '[0-9]+',
-                            ),
+                            'route' => '/company',
                             'defaults' => array(
                                 'controller' => 'speckcontact',
-                                'action' => 'company',
+                                'action' => 'list-companies',
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'view' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/:id',
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'speckcontact',
+                                        'action' => 'view-company',
+                                    ),
+                                ),
+                            ),
+                            'add' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/add/:id',
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'speckcontact',
+                                        'action' => 'add-company',
+                                    ),
+                                ),
                             ),
                         ),
                     ),

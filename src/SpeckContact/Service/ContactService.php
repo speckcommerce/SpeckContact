@@ -89,6 +89,11 @@ class ContactService
         return $contact;
     }
 
+    public function listCompanies($filter = null)
+    {
+        return $this->companyMapper->fetch($filter);
+    }
+
     public function getContactMapper()
     {
         return $this->contactMapper;

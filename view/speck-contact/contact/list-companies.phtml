@@ -1,0 +1,5 @@
+<?php foreach ($this->companies as $c) : ?>
+<a href="<?=$this->url('contact/company/view', array('id'=>$c->getCompanyId()))?>">
+<?=$c->getName()?> (<?=$c->getDisplayName()?>)
+</a><br />
+<?php endforeach; ?>

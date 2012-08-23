@@ -18,6 +18,24 @@ class CompanyMapper extends AbstractDbMapper
         $this->setEntityPrototype(new Company);
     }
 
+    public function fetch($filter = null)
+    {
+        $select = new Select;
+        $select->from('contact_company')
+            ->order('name');
+
+        if ($filter !== null) {
+            $where = new Where;
+            $where->like('name', '%' . $filter . '%')
+                ->OR
+                ->like('display_name', '%' . $filter . '%');
+
+            return $this->selectWith($select->where($where));
+        } else {
+            return $this->selectWith($select);
+        }
+    }
+
     public function findByContactId($id)
     {
         $sql = new Select;

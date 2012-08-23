@@ -16,7 +16,15 @@ class ContactController extends AbstractActionController
         return array('contacts' => $contacts);
     }
 
-    public function companyAction()
+    public function listCompaniesAction()
+    {
+        $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
+        $companies = $service->listCompanies();
+
+        return array('companies' => $companies);
+    }
+
+    public function viewCompanyAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
