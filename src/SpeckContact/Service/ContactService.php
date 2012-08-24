@@ -3,6 +3,9 @@
 namespace SpeckContact\Service;
 
 use SpeckContact\Entity\Contact;
+use SpeckContact\Entity\Email;
+use SpeckContact\Entity\Phone;
+use SpeckContact\Entity\Url;
 
 use Zend\Stdlib\Hydrator\ClassMethods;
 
@@ -104,6 +107,36 @@ class ContactService
         $contact = $hydrator->hydrate($data, $contact);
 
         return $this->contactMapper->persist($contact);
+    }
+
+    public function createEmail($data, $contactId)
+    {
+        $email = new Email;
+        $email->setTag($data['tag'])
+            ->setEmail($data['email'])
+            ->setContactId($contactId);
+
+        return $this->emailMapper->persist($email);
+    }
+
+    public function createPhone($data, $contactId)
+    {
+        $phone = new Phone;
+        $phone->setTag($data['tag'])
+            ->setPhone($data['phone'])
+            ->setContactId($contactId);
+
+        return $this->phoneMapper->persist($phone);
+    }
+
+    public function createUrl($data, $contactId)
+    {
+        $url = new Url;
+        $url->setTag($data['tag'])
+            ->setUrl($data['url'])
+            ->setContactId($contactId);
+
+        return $this->urlMapper->persist($url);
     }
 
     /*************************

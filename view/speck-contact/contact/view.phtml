@@ -4,6 +4,8 @@ $editRoute = $this->editRoute ?: 'address/edit/query';
 $deleteRoute = $this->deleteRoute ?: 'address/delete/query';
 $addRoute = $this->addRoute ?: 'address/add';
 
+$contactId = $this->contact->getContactId();
+
 ?>
 
 <h2><?=$this->contact->getName();?> (<?=$this->contact->getDisplayName()?>)</h3>
@@ -14,7 +16,7 @@ $addRoute = $this->addRoute ?: 'address/add';
 <a href="<?=$this->url('contact/company/view', array('id'=>$c->getCompanyId()))?>">
 <?=$c->getName()?> (<?=$c->getDisplayName()?>)</a><br />
 <?php endforeach; ?>
-<a href="<?=$this->url('contact/company/add', array('id' => $this->contact->getContactId()))?>">Add Company</a>
+<a href="<?=$this->url('contact/contact/add-company', array('id' => $contactId))?>">Add Company</a>
 </div>
 
 <h3>Phone Numbers</h3>
@@ -22,7 +24,7 @@ $addRoute = $this->addRoute ?: 'address/add';
 <?php foreach($this->contact->getPhones() as $p) : ?>
 <?=$p->getTag() ? $p->getTag() . ': ' : ''?><?=$p->getPhone()?><br />
 <?php endforeach; ?>
-<a href="">Add Phone Number</a>
+<a href="<?=$this->url('contact/contact/add-phone', array('id' => $contactId))?>">Add Phone Number</a>
 </div>
 
 <h3>Email Addresses</h3>
@@ -30,7 +32,7 @@ $addRoute = $this->addRoute ?: 'address/add';
 <?php foreach($this->contact->getEmails() as $e) : ?>
 <?=$e->getTag() ? $e->getTag() . ': ' : ''?><?=$e->getEmail()?><br />
 <?php endforeach; ?>
-<a href="">Add Email Address</a>
+<a href="<?=$this->url('contact/contact/add-email', array('id' => $contactId))?>">Add Email Address</a>
 </div>
 
 <h3>Addresses</h3>
@@ -60,7 +62,7 @@ $addRoute = $this->addRoute ?: 'address/add';
         <a href="<?=$editUrl?>">Edit</a> &middot; <a href="<?=$deleteUrl?>">Delete</a>
         <p style="clear: both"></p>
     <?php endforeach; ?>
-    <a href="<?=$this->url($addRoute)?>">Add Address</a>
+    <a href="<?=$this->url('contact/contact/add-address', array('id'=>$contactId))?>">Add Address</a>
 </div>
 
 <h3>URLs</h3>
@@ -71,6 +73,7 @@ $addRoute = $this->addRoute ?: 'address/add';
     <?php else : ?>
     <a href="<?=$u->getUrl()?>"><?=$u->getTag()?> (<?=$u->getUrl()?>)</a>
     <?php endif ;?>
+    <br />
 <?php endforeach; ?>
-<a href="">Add URL</a>
+<a href="<?=$this->url('contact/contact/add-url', array('id'=>$contactId))?>">Add URL</a>
 </div>

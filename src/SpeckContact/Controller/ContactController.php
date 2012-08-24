@@ -4,6 +4,12 @@ namespace SpeckContact\Controller;
 
 use SpeckContact\Form\Contact\Base as ContactBase;
 use SpeckContact\Form\Contact\BaseFilter as ContactBaseFilter;
+use SpeckContact\Form\Email\Base as EmailBase;
+use SpeckContact\Form\Email\BaseFilter as EmailBaseFilter;
+use SpeckContact\Form\Phone\Base as PhoneBase;
+use SpeckContact\Form\Phone\BaseFilter as PhoneBaseFilter;
+use SpeckContact\Form\Url\Base as UrlBase;
+use SpeckContact\Form\Url\BaseFilter as UrlBaseFilter;
 
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -72,6 +78,95 @@ class ContactController extends AbstractActionController
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $contact = $service->createContact($form->getData());
 
-        return $this->redirect()->toRoute('contact/view', array('id' => $contact->getContactId()));
+        return $this->redirect()->toRoute('contact/contact', array('id' => $contact->getContactId()));
+    }
+
+    public function addCompanyAction()
+    {
+    }
+
+    public function addAddressAction()
+    {
+    }
+
+    public function addEmailAction()
+    {
+        $form = new EmailBase;
+        $form->setInputFilter(new EmailBaseFilter);
+
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-email', array('id' => $id)), true);
+
+        if ($prg instanceof Response) {
+            return $prg;
+        } else if ($prg === false) {
+            return array('form' => $form, 'id' => $id);
+        }
+
+        $form->setData($prg);
+
+        if (!$form->isValid()) {
+            return array('form' => $form, 'id' => $id);
+        }
+
+        $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
+        $service->createEmail($form->getData(), $id);
+
+        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
+    }
+
+    public function addPhoneAction()
+    {
+        $form = new PhoneBase;
+        $form->setInputFilter(new PhoneBaseFilter);
+
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-phone', array('id' => $id)), true);
+
+        if ($prg instanceof Response) {
+            return $prg;
+        } else if ($prg === false) {
+            return array('form' => $form, 'id' => $id);
+        }
+
+        $form->setData($prg);
+
+        if (!$form->isValid()) {
+            return array('form' => $form, 'id' => $id);
+        }
+
+        $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
+        $service->createPhone($form->getData(), $id);
+
+        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
+    }
+
+    public function addUrlAction()
+    {
+        $form = new UrlBase;
+        $form->setInputFilter(new UrlBaseFilter);
+
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-url', array('id' => $id)), true);
+
+        if ($prg instanceof Response) {
+            return $prg;
+        } else if ($prg === false) {
+            return array('form' => $form, 'id' => $id);
+        }
+
+        $form->setData($prg);
+
+        if (!$form->isValid()) {
+            return array('form' => $form, 'id' => $id);
+        }
+
+        $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
+        $service->createUrl($form->getData(), $id);
+
+        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
     }
 }

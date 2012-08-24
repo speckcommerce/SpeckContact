@@ -28,6 +28,21 @@ class UrlMapper extends AbstractDbMapper
 
         return $this->selectWith($sql->where($where));
     }
+
+    public function persist($url)
+    {
+        try {
+            $this->insert($url, 'contact_url');
+        } catch (\Exception $e) {
+            $where = new Where;
+            $where->equalTo('contact_id', $url->getContactId())
+                ->equalTo('tag', $url->getTag());
+
+            $this->update($url, $where, 'contact_url');
+        }
+
+        return $url;
+    }
 }
 
 

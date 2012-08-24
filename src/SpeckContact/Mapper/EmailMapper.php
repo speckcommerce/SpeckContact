@@ -28,4 +28,19 @@ class EmailMapper extends AbstractDbMapper
 
         return $this->selectWith($sql->where($where));
     }
+
+    public function persist($email)
+    {
+        try {
+            $this->insert($email, 'contact_email');
+        } catch (\Exception $e) {
+            $where = new Where;
+            $where->equalTo('contact_id', $email->getContactId())
+                ->equalTo('tag', $email->getTag());
+
+            $this->update($email, $where, 'contact_email');
+        }
+
+        return $email;
+    }
 }
