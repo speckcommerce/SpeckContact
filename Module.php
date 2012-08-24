@@ -42,7 +42,8 @@ class Module implements AutoloaderProviderInterface
                         ->setContactMapper($sm->get('SpeckContact\Mapper\ContactMapper'))
                         ->setEmailMapper($sm->get('SpeckContact\Mapper\EmailMapper'))
                         ->setPhoneMapper($sm->get('SpeckContact\Mapper\PhoneMapper'))
-                        ->setUrlMapper($sm->get('SpeckContact\Mapper\UrlMapper'));
+                        ->setUrlMapper($sm->get('SpeckContact\Mapper\UrlMapper'))
+                        ->setServiceManager($sm);
                     return $service;
                 },
             ),

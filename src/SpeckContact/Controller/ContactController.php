@@ -87,6 +87,34 @@ class ContactController extends AbstractActionController
 
     public function addAddressAction()
     {
+        $vm = new ViewModel();
+        $vm->setTemplate('speck-address/address/add');
+
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        $form = $this->getServiceLocator()->get('SpeckAddress\Form\Address');
+        $form->setInputFilter($this->getServiceLocator()->get('SpeckAddress\Form\AddressFilter'));
+
+        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-address', array('id' => $id)), true);
+
+        if ($prg instanceof Response) {
+            return $prg;
+        } else if ($prg === false) {
+            $vm->form = $form;
+            return $vm;
+        }
+
+        $form->setData($prg);
+
+        if (!$form->isValid()) {
+            $vm->form = $form;
+            return $vm;
+        }
+
+        $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
+        $service->createAddress($prg, $id);
+
+        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
     }
 
     public function addEmailAction()

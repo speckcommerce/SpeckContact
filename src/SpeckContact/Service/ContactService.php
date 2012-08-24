@@ -7,9 +7,11 @@ use SpeckContact\Entity\Email;
 use SpeckContact\Entity\Phone;
 use SpeckContact\Entity\Url;
 
+use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\Stdlib\Hydrator\ClassMethods;
 
-class ContactService
+class ContactService implements ServiceManagerAwareInterface
 {
     protected $companyMapper;
     protected $contactMapper;
@@ -17,6 +19,7 @@ class ContactService
     protected $emailMapper;
     protected $phoneMapper;
     protected $urlMapper;
+    protected $serviceManager;
 
     public function findById($id)
     {
@@ -139,6 +142,14 @@ class ContactService
         return $this->urlMapper->persist($url);
     }
 
+    public function createAddress($data, $contactId)
+    {
+        $addressService = $this->serviceManager->get('SpeckAddress\Service\Address');
+        $address = $addressService->create($data);
+
+        return $this->addressMapper->link($contactId, $address->getAddressId());
+    }
+
     /*************************
      * Mapper getter/setters
      *************************/
@@ -205,6 +216,17 @@ class ContactService
     public function setUrlMapper($urlMapper)
     {
         $this->urlMapper = $urlMapper;
+        return $this;
+    }
+
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+    public function setServiceManager(ServiceManager $sm)
+    {
+        $this->serviceManager = $sm;
         return $this;
     }
 }

@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS `contact` (
 
 CREATE TABLE IF NOT EXISTS `contact_addresses` (
   `contact_id` int(11) unsigned NOT NULL,
-  `tag` varchar(255) DEFAULT NULL,
   `address_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`contact_id`,`address_id`)
 ) ENGINE=InnoDB;

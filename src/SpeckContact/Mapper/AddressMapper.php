@@ -2,7 +2,7 @@
 
 namespace SpeckContact\Mapper;
 
-use SpeckContact\Entity\Address;
+use SpeckAddress\Entity\Address;
 
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
@@ -28,5 +28,35 @@ class AddressMapper extends AbstractDbMapper
         $where->equalTo('ca.contact_id', $id);
 
         return $this->selectWith($sql->where($where));
+    }
+
+    public function link($contact_id, $address_id)
+    {
+        $data = compact('contact_id', 'address_id');
+
+        try {
+          $this->insert($data, 'contact_addresses');
+        } catch (\Exception $e) {
+            // already inserted, but that's okay
+            return;
+        }
+    }
+
+    public function unlink($contactId, $addressId)
+    {
+        $adapter = $this->getDbAdapter();
+        $statement = $adapter->createStatement();
+
+        $where = new Where;
+        $where->equalTo('contact_id', $contactId)
+            ->equalTo('address_id', $addressId);
+
+        $delete = new Delete;
+        $delete->from('contact_addresses')
+            ->where($where);
+
+        $delete->prepareStatement($adapter, $statement);
+        $result = $statement->execute();
+        return $result;
     }
 }
