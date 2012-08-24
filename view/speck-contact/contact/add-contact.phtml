@@ -1,0 +1,23 @@
+<?php
+
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('contact/add-contact'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form label-inline');
+
+?>
+<h2>New Contact</h2>
+<div class="well">
+    <?=$this->form()->openTag($form);?>
+    <?php foreach ($form->getElements() as $element) : ?>
+        <?php if ($element->getLabel() != null) : ?>
+            <?=$this->formLabel($element);?>
+        <?php endif; ?>
+        <?=$this->formElement($element);?>
+        <?=$this->formElementErrors($element);?>
+    <?php endforeach; ?>
+    <br />
+    <input type="submit" value="Save" class="btn" />
+    <?=$this->form()->closeTag()?>
+</div>

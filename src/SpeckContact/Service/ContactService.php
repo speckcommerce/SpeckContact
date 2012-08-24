@@ -4,6 +4,8 @@ namespace SpeckContact\Service;
 
 use SpeckContact\Entity\Contact;
 
+use Zend\Stdlib\Hydrator\ClassMethods;
+
 class ContactService
 {
     protected $companyMapper;
@@ -94,6 +96,19 @@ class ContactService
         return $this->companyMapper->fetch($filter);
     }
 
+    public function createContact($data)
+    {
+        $contact = new Contact;
+        $hydrator = new ClassMethods;
+
+        $contact = $hydrator->hydrate($data, $contact);
+
+        return $this->contactMapper->persist($contact);
+    }
+
+    /*************************
+     * Mapper getter/setters
+     *************************/
     public function getContactMapper()
     {
         return $this->contactMapper;

@@ -3,12 +3,12 @@
 namespace SpeckContact\Mapper;
 
 use SpeckContact\Entity\Contact;
+use SpeckContact\Hydrator\ContactHydrator;
 
 use Zend\Db\Sql\Delete;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
-use Zend\Stdlib\Hydrator\ClassMethods;
 
 use ZfcBase\Mapper\AbstractDbMapper;
 
@@ -16,7 +16,7 @@ class ContactMapper extends AbstractDbMapper
 {
     public function __construct()
     {
-        $this->setHydrator(new ClassMethods);
+        $this->setHydrator(new ContactHydrator);
         $this->setEntityPrototype(new Contact);
     }
 
@@ -59,5 +59,20 @@ class ContactMapper extends AbstractDbMapper
         } else {
             return $this->selectWith($select);
         }
+    }
+
+    public function persist($contact)
+    {
+        if ($contact->getContactId() > 0) {
+            $where = new Where;
+            $where->equalTo('contact_id', $contact->getContactId());
+
+            $this->update($contact, $where, 'contact');
+        } else {
+            $result = $this->insert($contact, 'contact');
+            $contact->setContactId($result->getGeneratedValue());
+        }
+
+        return $contact;
     }
 }

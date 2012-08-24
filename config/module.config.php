@@ -42,6 +42,16 @@ return array(
                             ),
                         ),
                     ),
+                    'add-contact' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'controller' => 'speckcontact',
+                                'action' => 'add-contact',
+                            ),
+                        ),
+                    ),
                     'company' => array(
                         'type' => 'Literal',
                         'may_terminate' => true,
