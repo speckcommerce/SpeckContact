@@ -28,7 +28,7 @@ class ContactMapper extends AbstractDbMapper
         $where = new Where;
         $where->equalTo('contact_id', $id);
 
-        return $this->selectWith($select->where($where))->current();
+        return $this->select($select->where($where))->current();
     }
 
     public function findByCompanyId($id)
@@ -40,7 +40,7 @@ class ContactMapper extends AbstractDbMapper
         $where = new Where;
         $where->equalTo('contact_companies.company_id', $id);
 
-        return $this->selectWith($select->where($where));
+        return $this->select($select->where($where));
     }
 
     public function fetch($filter = null)
@@ -55,9 +55,9 @@ class ContactMapper extends AbstractDbMapper
                 ->OR
                 ->like('display_name', '%' . $filter . '%');
 
-            return $this->selectWith($select->where($where));
+            return $this->select($select->where($where));
         } else {
-            return $this->selectWith($select);
+            return $this->select($select);
         }
     }
 

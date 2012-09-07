@@ -27,7 +27,7 @@ class AddressMapper extends AbstractDbMapper
         $where = new Where;
         $where->equalTo('ca.contact_id', $id);
 
-        return $this->selectWith($sql->where($where));
+        return $this->select($sql->where($where));
     }
 
     public function link($contact_id, $address_id)

@@ -26,7 +26,7 @@ class PhoneMapper extends AbstractDbMapper
         $where = new Where;
         $where->equalTo('contact_id', $id);
 
-        return $this->selectWith($sql->where($where));
+        return $this->select($sql->where($where));
     }
 
     public function persist($phone)

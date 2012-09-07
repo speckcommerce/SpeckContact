@@ -30,9 +30,9 @@ class CompanyMapper extends AbstractDbMapper
                 ->OR
                 ->like('display_name', '%' . $filter . '%');
 
-            return $this->selectWith($select->where($where));
+            return $this->select($select->where($where));
         } else {
-            return $this->selectWith($select);
+            return $this->select($select);
         }
     }
 
@@ -45,6 +45,6 @@ class CompanyMapper extends AbstractDbMapper
         $where = new Where;
         $where->equalTo('cc.contact_id', $id);
 
-        return $this->selectWith($sql->where($where));
+        return $this->select($sql->where($where));
     }
 }
