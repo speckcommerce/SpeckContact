@@ -1,0 +1,22 @@
+{
+    "name": "speckcommerce/speck-contact",
+    "description": "",
+    "type": "library",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "http://github.com/speckcommerce/SpeckContact",
+    "authors": [
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-0": {
+            "SpeckContact": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}
+
