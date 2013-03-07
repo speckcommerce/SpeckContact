@@ -68,4 +68,26 @@ class Module implements AutoloaderProviderInterface
     {
         return include __DIR__ . '/config/module.config.php';
     }
+
+    public function onBootstrap($e)
+    {
+        if($e->getRequest() instanceof \Zend\Console\Request){
+            return;
+        }
+
+        $app = $e->getParam('application');
+        $em  = $app->getEventManager()->getSharedManager();
+
+        //install event listener
+        $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables', array($this, 'createTables'));
+    }
+
+    public function createTables($e)
+    {
+        $mapper = $e->getParam('mapper');
+        $create = file_get_contents(__DIR__ .'/data/schema.sql');
+        $mapper->query($create);
+
+        return "SpeckContact created tables";
+    }
 }
