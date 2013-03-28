@@ -25,6 +25,9 @@ class ContactService implements ServiceManagerAwareInterface
     public function findById($id)
     {
         $contact = $this->contactMapper->findById($id);
+        if (!$contact) {
+            return false;
+        }
         $contact = $this->getExtras($contact);
 
         return $contact;
@@ -33,6 +36,9 @@ class ContactService implements ServiceManagerAwareInterface
     public function findCompanyById($companyId)
     {
         $company = $this->getCompanyMapper()->findById($companyId);
+        if (!$company) {
+            return false;
+        }
         $company = $this->getCompanyExtras($company);
 
         return $company;
@@ -130,7 +136,18 @@ class ContactService implements ServiceManagerAwareInterface
 
         $contact = $hydrator->hydrate($data, $contact);
 
-        return $this->contactMapper->persist($contact);
+        if (isset($data['company_id'])) {
+            $company = $this->findCompanyById($data['company_id']);
+            if (!$company) {
+                throw new \Exception (sprintf(
+                    'cannot create contact with company linker because company with id: %s doesnt exist',
+                    $data['company_id']
+                ));
+            };
+            return $this->getContactMapper()->persist($contact, $company->getCompanyId());
+        }
+
+        return $this->getContactMapper()->persist($contact);
     }
 
     public function createCompany($data)

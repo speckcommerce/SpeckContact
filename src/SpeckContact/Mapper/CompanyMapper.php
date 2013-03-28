@@ -59,12 +59,17 @@ class CompanyMapper extends AbstractDbMapper
 
     public function persist($company, $contactId = null)
     {
+        //todo : custom hydrator that only returns db fields on extract.
+        $data = $this->getHydrator()->extract($company);
+        unset($data['contacts']);
+
+
         if ($company->getCompanyId() > 0) {
             $where = new Where;
             $where->equalTo('company_id', $company->getCompanyId());
-            $this->update($company, $where, 'contact_company');
+            $this->update($data, $where, 'contact_company');
         } else {
-            $result = $this->insert($company, 'contact_company');
+            $result = $this->insert($data, 'contact_company');
             $company->setCompanyId($result->getGeneratedValue());
             if ($contactId) {
                 $linker = array(

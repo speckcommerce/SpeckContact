@@ -72,7 +72,7 @@ class ContactController extends AbstractActionController
             $form = new CompanyContact;
             $form->setInputFilter(new CompanyContactFilter);
             $form->get('company_id')->setValue($companyId);
-            $prg = $this->prg('contact/company/' . $companyId . '/add-contact');
+            $prg = $this->prg('/contact/company/' . $companyId . '/add-contact', true);
         } else {
             $form = new ContactBase;
             $form->setInputFilter(new ContactBaseFilter);
@@ -88,13 +88,19 @@ class ContactController extends AbstractActionController
         $form->setData($prg);
 
         if (!$form->isValid()) {
-            return array('form' => $form, 'companyId' => $companyId);
+            var_dump($form->getMessages());
+            die('form invalid');
+            return array('form' => $form, 'companyId' => $companyId, 'messages' => 'form invalid');
         }
 
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $contact = $service->createContact($form->getData());
 
-        return $this->redirect()->toRoute('contact/contact', array('id' => $contact->getContactId()));
+        if ($companyId) {
+            return $this->redirect()->toRoute('contact/company/view', array('id' => $companyId));
+        } else {
+            return $this->redirect()->toRoute('contact/contact', array('id' => $contact->getContactId()));
+        }
     }
 
     public function addCompanyAction()
@@ -126,7 +132,11 @@ class ContactController extends AbstractActionController
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $company = $service->createCompany($form->getData());
 
-        return $this->redirect()->toRoute('contact/company', array('id' => $company->getCompanyId()));
+        if ($contactId) {
+            return $this->redirect()->toRoute('contact/contact', array('id' => $contactId));
+        } else {
+            return $this->redirect()->toRoute('contact/company/view', array('id' => $company->getCompanyId()));
+        }
     }
 
     public function addAddressAction()

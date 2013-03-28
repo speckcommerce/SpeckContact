@@ -6,5 +6,5 @@
 <a href="<?=$this->url('contact/contact', array('id'=>$c->getContactId()))?>">
 <?=$c->getName()?> (<?=$c->getDisplayName()?>)</a><br />
 <?php endforeach; ?>
-<a href="<?//=$this->url('contact/company/add-contact', array('id' => $contactId))?>">Add Contact</a>
+<a href="<?=$this->url('contact/company/view/add-contact', array('id' => $company->getCompanyId()))?>">Add Contact</a>
 </div>
