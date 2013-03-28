@@ -2,16 +2,16 @@
 
 $form = $this->form;
 $form->prepare();
-if ($companyId) {
-    $form->setAttribute('action', $this->url('contact/company/view/add-contact', array('id' => $companyId)));
+if ($contactId) {
+    $form->setAttribute('action', $this->url('contact/contact/add-company', array('id' => $contactId)));
 } else {
-    $form->setAttribute('action', $this->url('contact/add-contact'));
+    $form->setAttribute('action', $this->url('contact/company/add-company'));
 }
 $form->setAttribute('method', 'post');
 $form->setAttribute('class', 'form label-inline');
 
 ?>
-<h2>New Contact</h2>
+<h2>Add Company</h2>
 <div class="well">
     <?=$this->form()->openTag($form);?>
     <?php foreach ($form->getElements() as $element) : ?>

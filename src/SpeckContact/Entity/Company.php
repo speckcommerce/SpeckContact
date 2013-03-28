@@ -7,6 +7,7 @@ class Company
     protected $companyId;
     protected $name;
     protected $displayName;
+    protected $contacts = array();
 
     public function getCompanyId()
     {
@@ -38,6 +39,33 @@ class Company
     public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
+        return $this;
+    }
+
+    /**
+     * @return contacts
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact)
+    {
+        $this->contacts[] = $contact;
+        return $this;
+    }
+
+    /**
+     * @param $contacts
+     * @return self
+     */
+    public function setContacts($contacts)
+    {
+        $this->contacts = array();
+        foreach ($contacts as $contact) {
+            $this->addContact($contact);
+        }
         return $this;
     }
 }

@@ -4,12 +4,12 @@ namespace SpeckContact\Hydrator;
 
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
-class ContactHydrator implements HydratorInterface
+class CompanyHydrator implements HydratorInterface
 {
     public function extract($object)
     {
         $result = array(
-            'contact_id'   => $object->getContactId(),
+            'company_id'   => $object->getCompanyId(),
             'name'         => $object->getName(),
             'display_name' => $object->getDisplayName(),
         );
@@ -22,8 +22,8 @@ class ContactHydrator implements HydratorInterface
         $object->setName($data['name'])
             ->setDisplayName($data['display_name']);
 
-        if (array_key_exists('contact_id', $data)) {
-            $object->setContactId($data['contact_id']);
+        if (array_key_exists('company_id', $data)) {
+            $object->setCompanyId($data['company_id']);
         }
 
         return $object;
