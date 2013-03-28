@@ -3,10 +3,10 @@
 namespace SpeckContact\Mapper;
 
 use SpeckContact\Entity\Company;
+use SpeckContact\Hydrator\CompanyHydrator;
 
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
-use Zend\Stdlib\Hydrator\ClassMethods;
 
 use ZfcBase\Mapper\AbstractDbMapper;
 
@@ -14,7 +14,7 @@ class CompanyMapper extends AbstractDbMapper
 {
     public function __construct()
     {
-        $this->setHydrator(new ClassMethods);
+        $this->setHydrator(new CompanyHydrator);
         $this->setEntityPrototype(new Company);
     }
 
@@ -59,17 +59,12 @@ class CompanyMapper extends AbstractDbMapper
 
     public function persist($company, $contactId = null)
     {
-        //todo : custom hydrator that only returns db fields on extract.
-        $data = $this->getHydrator()->extract($company);
-        unset($data['contacts']);
-
-
         if ($company->getCompanyId() > 0) {
             $where = new Where;
             $where->equalTo('company_id', $company->getCompanyId());
-            $this->update($data, $where, 'contact_company');
+            $this->update($company, $where, 'contact_company');
         } else {
-            $result = $this->insert($data, 'contact_company');
+            $result = $this->insert($company, 'contact_company');
             $company->setCompanyId($result->getGeneratedValue());
             if ($contactId) {
                 $linker = array(

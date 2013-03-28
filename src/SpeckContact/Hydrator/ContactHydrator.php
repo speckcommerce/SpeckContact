@@ -9,7 +9,7 @@ class ContactHydrator implements HydratorInterface
     public function extract($object)
     {
         $result = array(
-            'contact_id'   => $object->getContactId() ?: null,
+            'contact_id'   => $object->getContactId(),
             'name'         => $object->getName(),
             'display_name' => $object->getDisplayName(),
         );
