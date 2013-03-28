@@ -116,6 +116,16 @@ return array(
                             ),
                         ),
                         'child_routes' => array(
+                            'add-company' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/add',
+                                    'defaults' => array(
+                                        'controller' => 'speckcontact',
+                                        'action' => 'add-company',
+                                    ),
+                                ),
+                            ),
                             'view' => array(
                                 'type' => 'Segment',
                                 'options' => array(
@@ -126,6 +136,19 @@ return array(
                                     'defaults' => array(
                                         'controller' => 'speckcontact',
                                         'action' => 'view-company',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'add-contact' => array(
+                                        'type' => 'Literal',
+                                        'options' => array(
+                                            'route' => '/add-contact',
+                                            'defaults' => array(
+                                                'controller' => 'speckcontact',
+                                                'action' => 'add-contact',
+                                            ),
+                                        ),
                                     ),
                                 ),
                             ),

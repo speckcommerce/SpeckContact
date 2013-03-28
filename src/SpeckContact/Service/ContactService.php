@@ -3,6 +3,7 @@
 namespace SpeckContact\Service;
 
 use SpeckContact\Entity\Contact;
+use SpeckContact\Entity\Company;
 use SpeckContact\Entity\Email;
 use SpeckContact\Entity\Phone;
 use SpeckContact\Entity\Url;
@@ -27,6 +28,14 @@ class ContactService implements ServiceManagerAwareInterface
         $contact = $this->getExtras($contact);
 
         return $contact;
+    }
+
+    public function findCompanyById($companyId)
+    {
+        $company = $this->getCompanyMapper()->findById($companyId);
+        $company = $this->getCompanyExtras($company);
+
+        return $company;
     }
 
     public function findByCompanyId($companyId, $extra = false)
@@ -97,6 +106,18 @@ class ContactService implements ServiceManagerAwareInterface
         return $contact;
     }
 
+    public function getCompanyExtras(Company $company)
+    {
+        $id = $company->getCompanyId();
+
+        $contacts = $this->getContactMapper()->findByCompanyId($id);
+        foreach ($contacts as $i) {
+            $company->addContact($i);
+        }
+
+        return $company;
+    }
+
     public function listCompanies($filter = null)
     {
         return $this->companyMapper->fetch($filter);
@@ -110,6 +131,27 @@ class ContactService implements ServiceManagerAwareInterface
         $contact = $hydrator->hydrate($data, $contact);
 
         return $this->contactMapper->persist($contact);
+    }
+
+    public function createCompany($data)
+    {
+        $company = new Company;
+        $hydrator = new ClassMethods;
+
+        $company = $hydrator->hydrate($data, $company);
+
+        if (isset($data['contact_id'])) {
+            $contact = $this->findById($data['contact_id']);
+            if (!$contact) {
+                throw new \Exception (sprintf(
+                    'cannot create company with contact linker because contact with id: %s doesnt exist',
+                    $data['contact_id']
+                ));
+            };
+            return $this->companyMapper->persist($company, $contact->getContactId());
+        }
+
+        return $this->companyMapper->persist($company);
     }
 
     public function createEmail($data, $contactId)
