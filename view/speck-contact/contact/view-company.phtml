@@ -3,8 +3,8 @@
 <h3>Contacts</h3>
 <div class="well well-small" style="clear:both;">
 <?php foreach($this->company->getContacts() as $c) : ?>
-<a href="<?=$this->url('contact/contact', array('id'=>$c->getContactId()))?>">
+<a href="<?=$this->url('zfcadmin/contact/contact', array('id'=>$c->getContactId()))?>">
 <?=$c->getName()?> (<?=$c->getDisplayName()?>)</a><br />
 <?php endforeach; ?>
-<a href="<?=$this->url('contact/company/view/add-contact', array('id' => $company->getCompanyId()))?>">Add Contact</a>
+<a href="<?=$this->url('zfcadmin/contact/company/view/add-contact', array('id' => $company->getCompanyId()))?>" class="btn">Add Contact</a>
 </div>

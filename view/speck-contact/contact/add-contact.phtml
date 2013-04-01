@@ -3,9 +3,9 @@
 $form = $this->form;
 $form->prepare();
 if ($companyId) {
-    $form->setAttribute('action', $this->url('contact/company/view/add-contact', array('id' => $companyId)));
+    $form->setAttribute('action', $this->url('zfcadmin/contact/company/view/add-contact', array('id' => $companyId)));
 } else {
-    $form->setAttribute('action', $this->url('contact/add-contact'));
+    $form->setAttribute('action', $this->url('zfcadmin/contact/add-contact'));
 }
 $form->setAttribute('method', 'post');
 $form->setAttribute('class', 'form label-inline');

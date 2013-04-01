@@ -72,11 +72,11 @@ class ContactController extends AbstractActionController
             $form = new CompanyContact;
             $form->setInputFilter(new CompanyContactFilter);
             $form->get('company_id')->setValue($companyId);
-            $prg = $this->prg('/contact/company/' . $companyId . '/add-contact', true);
+            $prg = $this->prg('/admin/contact/company/' . $companyId . '/add-contact', true);
         } else {
             $form = new ContactBase;
             $form->setInputFilter(new ContactBaseFilter);
-            $prg = $this->prg('contact/add-contact');
+            $prg = $this->prg('zfcadmin/contact/add-contact');
         }
 
         if ($prg instanceof Response) {
@@ -97,9 +97,9 @@ class ContactController extends AbstractActionController
         $contact = $service->createContact($form->getData());
 
         if ($companyId) {
-            return $this->redirect()->toRoute('contact/company/view', array('id' => $companyId));
+            return $this->redirect()->toRoute('zfcadmin/contact/company/view', array('id' => $companyId));
         } else {
-            return $this->redirect()->toRoute('contact/contact', array('id' => $contact->getContactId()));
+            return $this->redirect()->toRoute('zfcadmin/contact/contact', array('id' => $contact->getContactId()));
         }
     }
 
@@ -110,11 +110,11 @@ class ContactController extends AbstractActionController
             $form = new ContactCompany;
             $form->setInputFilter(new ContactCompanyFilter);
             $form->get('contact_id')->setValue($contactId);
-            $prg = $this->prg('/contact/' . $contactId . '/add-company', true);
+            $prg = $this->prg('/admin/contact/' . $contactId . '/add-company', true);
         } else {
             $form = new CompanyBase;
             $form->setInputFilter(new CompanyBaseFilter);
-            $prg = $this->prg('contact/company/add-company');
+            $prg = $this->prg('zfcadmin/contact/company/add-company');
         }
 
         if ($prg instanceof Response) {
@@ -133,9 +133,9 @@ class ContactController extends AbstractActionController
         $company = $service->createCompany($form->getData());
 
         if ($contactId) {
-            return $this->redirect()->toRoute('contact/contact', array('id' => $contactId));
+            return $this->redirect()->toRoute('zfcadmin/contact/contact', array('id' => $contactId));
         } else {
-            return $this->redirect()->toRoute('contact/company/view', array('id' => $company->getCompanyId()));
+            return $this->redirect()->toRoute('zfcadmin/contact/company/view', array('id' => $company->getCompanyId()));
         }
     }
 
@@ -149,7 +149,7 @@ class ContactController extends AbstractActionController
         $form = $this->getServiceLocator()->get('SpeckAddress\Form\Address');
         $form->setInputFilter($this->getServiceLocator()->get('SpeckAddress\Form\AddressFilter'));
 
-        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-address', array('id' => $id)), true);
+        $prg = $this->prg($this->url()->fromRoute('zfcadmin/contact/contact/add-address', array('id' => $id)), true);
 
         if ($prg instanceof Response) {
             return $prg;
@@ -168,7 +168,7 @@ class ContactController extends AbstractActionController
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $service->createAddress($prg, $id);
 
-        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
+        return $this->redirect()->toRoute('zfcadmin/contact/contact', array('id' => $id));
     }
 
     public function addEmailAction()
@@ -178,7 +178,7 @@ class ContactController extends AbstractActionController
 
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
 
-        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-email', array('id' => $id)), true);
+        $prg = $this->prg($this->url()->fromRoute('zfcadmin/contact/contact/add-email', array('id' => $id)), true);
 
         if ($prg instanceof Response) {
             return $prg;
@@ -195,7 +195,7 @@ class ContactController extends AbstractActionController
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $service->createEmail($form->getData(), $id);
 
-        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
+        return $this->redirect()->toRoute('zfcadmin/contact/contact', array('id' => $id));
     }
 
     public function addPhoneAction()
@@ -205,7 +205,7 @@ class ContactController extends AbstractActionController
 
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
 
-        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-phone', array('id' => $id)), true);
+        $prg = $this->prg($this->url()->fromRoute('zfcadmin/contact/contact/add-phone', array('id' => $id)), true);
 
         if ($prg instanceof Response) {
             return $prg;
@@ -222,7 +222,7 @@ class ContactController extends AbstractActionController
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $service->createPhone($form->getData(), $id);
 
-        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
+        return $this->redirect()->toRoute('zfcadmin/contact/contact', array('id' => $id));
     }
 
     public function addUrlAction()
@@ -232,7 +232,7 @@ class ContactController extends AbstractActionController
 
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
 
-        $prg = $this->prg($this->url()->fromRoute('contact/contact/add-url', array('id' => $id)), true);
+        $prg = $this->prg($this->url()->fromRoute('zfcadmin/contact/contact/add-url', array('id' => $id)), true);
 
         if ($prg instanceof Response) {
             return $prg;
@@ -249,6 +249,6 @@ class ContactController extends AbstractActionController
         $service = $this->getServiceLocator()->get('SpeckContact\Service\ContactService');
         $service->createUrl($form->getData(), $id);
 
-        return $this->redirect()->toRoute('contact/contact', array('id' => $id));
+        return $this->redirect()->toRoute('zfcadmin/contact/contact', array('id' => $id));
     }
 }
