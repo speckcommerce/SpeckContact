@@ -1,3 +1,4 @@
 <?php foreach ($this->contacts as $c) : ?>
-<a href="<?=$this->url('contact/contact', array('id' => $c->getContactId()))?>"><?=$c->getName()?></a> (<?=$c->getDisplayName()?>)<br />
+<a href="<?=$this->url('zfcadmin/contact/contact', array('id' => $c->getContactId()))?>"><?=$c->getName()?></a> (<?=$c->getDisplayName()?>)<br />
 <?php endforeach; ?>
+<a href="<?=$this->url('zfcadmin/contact/add-contact')?>" class="btn">Add Contact</a>

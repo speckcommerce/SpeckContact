@@ -13,10 +13,10 @@ $contactId = $this->contact->getContactId();
 <h3>Companies</h3>
 <div class="well well-small" style="clear:both;">
 <?php foreach($this->contact->getCompanies() as $c) : ?>
-<a href="<?=$this->url('contact/company/view', array('id'=>$c->getCompanyId()))?>">
+<a href="<?=$this->url('zfcadmin/contact/company/view', array('id'=>$c->getCompanyId()))?>">
 <?=$c->getName()?> (<?=$c->getDisplayName()?>)</a><br />
 <?php endforeach; ?>
-<a href="<?=$this->url('contact/contact/add-company', array('id' => $contactId))?>">Add Company</a>
+<a href="<?=$this->url('zfcadmin/contact/contact/add-company', array('id' => $contactId))?>" class="btn">Add Company</a>
 </div>
 
 <h3>Phone Numbers</h3>
@@ -24,7 +24,7 @@ $contactId = $this->contact->getContactId();
 <?php foreach($this->contact->getPhones() as $p) : ?>
 <?=$p->getTag() ? $p->getTag() . ': ' : ''?><?=$p->getPhone()?><br />
 <?php endforeach; ?>
-<a href="<?=$this->url('contact/contact/add-phone', array('id' => $contactId))?>">Add Phone Number</a>
+<a href="<?=$this->url('zfcadmin/contact/contact/add-phone', array('id' => $contactId))?>" class="btn">Add Phone Number</a>
 </div>
 
 <h3>Email Addresses</h3>
@@ -32,7 +32,7 @@ $contactId = $this->contact->getContactId();
 <?php foreach($this->contact->getEmails() as $e) : ?>
 <?=$e->getTag() ? $e->getTag() . ': ' : ''?><?=$e->getEmail()?><br />
 <?php endforeach; ?>
-<a href="<?=$this->url('contact/contact/add-email', array('id' => $contactId))?>">Add Email Address</a>
+<a href="<?=$this->url('zfcadmin/contact/contact/add-email', array('id' => $contactId))?>" class="btn">Add Email Address</a>
 </div>
 
 <h3>Addresses</h3>
@@ -61,7 +61,7 @@ $contactId = $this->contact->getContactId();
         <a href="<?=$editUrl?>">Edit</a> &middot; <a href="<?=$deleteUrl?>">Delete</a>
         <p style="clear: both"></p>
     <?php endforeach; ?>
-    <a href="<?=$this->url('contact/contact/add-address', array('id'=>$contactId))?>">Add Address</a>
+    <a href="<?=$this->url('zfcadmin/contact/contact/add-address', array('id'=>$contactId))?>" class="btn">Add Address</a>
 </div>
 
 <h3>URLs</h3>
@@ -74,5 +74,5 @@ $contactId = $this->contact->getContactId();
     <?php endif ;?>
     <br />
 <?php endforeach; ?>
-<a href="<?=$this->url('contact/contact/add-url', array('id'=>$contactId))?>">Add URL</a>
+<a href="<?=$this->url('zfcadmin/contact/contact/add-url', array('id'=>$contactId))?>" class="btn">Add URL</a>
 </div>

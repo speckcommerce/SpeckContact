@@ -1,5 +1,6 @@
 <?php foreach ($this->companies as $c) : ?>
-<a href="<?=$this->url('contact/company/view', array('id'=>$c->getCompanyId()))?>">
+<a href="<?=$this->url('zfcadmin/contact/company/view', array('id'=>$c->getCompanyId()))?>">
 <?=$c->getName()?> (<?=$c->getDisplayName()?>)
 </a><br />
 <?php endforeach; ?>
+<a href="<?=$this->url('zfcadmin/contact/company/add-company')?>" class="btn">Add Company</a>
