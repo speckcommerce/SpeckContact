@@ -61,7 +61,7 @@ class ContactMapper extends AbstractDbMapper
         }
     }
 
-    public function persist($contact)
+    public function persist($contact, $companyId = null)
     {
         if ($contact->getContactId() > 0) {
             $where = new Where;
@@ -71,6 +71,13 @@ class ContactMapper extends AbstractDbMapper
         } else {
             $result = $this->insert($contact, 'contact');
             $contact->setContactId($result->getGeneratedValue());
+            if ($companyId) {
+                $linker = array(
+                    'company_id' => $companyId,
+                    'contact_id' => $contact->getContactId(),
+                );
+                $this->insert($linker, 'contact_companies');
+            }
         }
 
         return $contact;
